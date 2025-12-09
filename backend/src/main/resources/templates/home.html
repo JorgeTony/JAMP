@@ -1,0 +1,196 @@
+
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${pageTitle}">Inventarios JAMP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+<body class="min-h-screen bg-gray-50">
+    <!-- Header Navigation -->
+    <header class="bg-slate-700 shadow-sm">
+        <div class="px-4 lg:px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4 lg:space-x-6">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 bg-blue-900 rounded-lg flex items-center justify-center">
+                            <i class="ri-user-star-line text-white text-lg"></i>
+                        </div>
+                        <h1 class="text-lg lg:text-xl font-bold text-white" th:text="${pageTitle}">Inventarios JAMP</h1>
+                    </div>
+                </div>
+                
+                <div class="hidden lg:flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-blue-900 rounded-lg flex items-center justify-center">
+                        <i class="ri-user-star-line text-white text-lg"></i>
+                    </div>
+                    <div class="text-sm">
+                        <p class="font-medium text-white" th:text="${userName}">María González</p>
+                        <p class="text-blue-200" th:text="${userRole}">Administrador de Inventario</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="px-4 lg:px-6 py-6 lg:py-8">
+        <!-- Welcome Section -->
+        <div class="mb-6 lg:mb-8">
+            <h2 class="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
+                Bienvenido, <span th:text="${userName}">María González</span>
+            </h2>
+            <p class="text-gray-600">Gestiona tu inventario de manera eficiente desde el panel de control</p>
+        </div>
+
+        <!-- Main Modules -->
+        <div class="mb-6 lg:mb-8">
+            <h3 class="text-lg lg:text-xl font-semibold text-gray-900 mb-4 lg:mb-6">Módulos del Sistema</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+                
+                <!-- Dashboard Module -->
+                <a href="/dashboard" class="bg-blue-50 hover:bg-blue-100 rounded-xl p-4 lg:p-6 border border-gray-200 cursor-pointer transition-all duration-200 hover:shadow-md">
+                    <div class="flex items-start space-x-3 lg:space-x-4">
+                        <div class="w-10 h-10 lg:w-12 lg:h-12 rounded-lg bg-white flex items-center justify-center text-blue-600">
+                            <i class="ri-dashboard-3-line text-lg lg:text-xl"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-semibold text-gray-900 mb-1 lg:mb-2 text-sm lg:text-base">Dashboard</h4>
+                            <p class="text-xs lg:text-sm text-gray-600">Panel de control y métricas</p>
+                        </div>
+                        <i class="ri-arrow-right-s-line text-gray-400 text-lg"></i>
+                    </div>
+                </a>
+
+                <!-- Productos Module -->
+                <a href="/productos" class="bg-green-50 hover:bg-green-100 rounded-xl p-4 lg:p-6 border border-gray-200 cursor-pointer transition-all duration-200 hover:shadow-md">
+                    <div class="flex items-start space-x-3 lg:space-x-4">
+                        <div class="w-10 h-10 lg:w-12 lg:h-12 rounded-lg bg-white flex items-center justify-center text-green-600">
+                            <i class="ri-medicine-bottle-line text-lg lg:text-xl"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-semibold text-gray-900 mb-1 lg:mb-2 text-sm lg:text-base">Productos</h4>
+                            <p class="text-xs lg:text-sm text-gray-600">Gestión de productos médicos</p>
+                        </div>
+                        <i class="ri-arrow-right-s-line text-gray-400 text-lg"></i>
+                    </div>
+                </a>
+
+                <!-- Almacenes Module -->
+                <a href="/almacenes" class="bg-purple-50 hover:bg-purple-100 rounded-xl p-4 lg:p-6 border border-gray-200 cursor-pointer transition-all duration-200 hover:shadow-md">
+                    <div class="flex items-start space-x-3 lg:space-x-4">
+                        <div class="w-10 h-10 lg:w-12 lg:h-12 rounded-lg bg-white flex items-center justify-center text-purple-600">
+                            <i class="ri-building-2-line text-lg lg:text-xl"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-semibold text-gray-900 mb-1 lg:mb-2 text-sm lg:text-base">Almacenes</h4>
+                            <p class="text-xs lg:text-sm text-gray-600">Control de almacenes y ubicaciones</p>
+                        </div>
+                        <i class="ri-arrow-right-s-line text-gray-400 text-lg"></i>
+                    </div>
+                </a>
+
+                <!-- Transacciones Module -->
+                <a href="/transacciones" class="bg-orange-50 hover:bg-orange-100 rounded-xl p-4 lg:p-6 border border-gray-200 cursor-pointer transition-all duration-200 hover:shadow-md">
+                    <div class="flex items-start space-x-3 lg:space-x-4">
+                        <div class="w-10 h-10 lg:w-12 lg:h-12 rounded-lg bg-white flex items-center justify-center text-orange-600">
+                            <i class="ri-exchange-line text-lg lg:text-xl"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-semibold text-gray-900 mb-1 lg:mb-2 text-sm lg:text-base">Transacciones</h4>
+                            <p class="text-xs lg:text-sm text-gray-600">Registro de movimientos y transacciones</p>
+                        </div>
+                        <i class="ri-arrow-right-s-line text-gray-400 text-lg"></i>
+                    </div>
+                </a>
+
+                <!-- Kardex Module -->
+                <a href="/kardex" class="bg-yellow-50 hover:bg-yellow-100 rounded-xl p-4 lg:p-6 border border-gray-200 cursor-pointer transition-all duration-200 hover:shadow-md">
+                    <div class="flex items-start space-x-3 lg:space-x-4">
+                        <div class="w-10 h-10 lg:w-12 lg:h-12 rounded-lg bg-white flex items-center justify-center text-yellow-600">
+                            <i class="ri-bar-chart-box-line text-lg lg:text-xl"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-semibold text-gray-900 mb-1 lg:mb-2 text-sm lg:text-base">Kardex</h4>
+                            <p class="text-xs lg:text-sm text-gray-600">Historial detallado de movimientos</p>
+                        </div>
+                        <i class="ri-arrow-right-s-line text-gray-400 text-lg"></i>
+                    </div>
+                </a>
+
+                <!-- Inventario Module -->
+                <a href="/inventario" class="bg-red-50 hover:bg-red-100 rounded-xl p-4 lg:p-6 border border-gray-200 cursor-pointer transition-all duration-200 hover:shadow-md">
+                    <div class="flex items-start space-x-3 lg:space-x-4">
+                        <div class="w-10 h-10 lg:w-12 lg:h-12 rounded-lg bg-white flex items-center justify-center text-red-600">
+                            <i class="ri-archive-line text-lg lg:text-xl"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-semibold text-gray-900 mb-1 lg:mb-2 text-sm lg:text-base">Inventario</h4>
+                            <p class="text-xs lg:text-sm text-gray-600">Control de stock y existencias</p>
+                        </div>
+                        <i class="ri-arrow-right-s-line text-gray-400 text-lg"></i>
+                    </div>
+                </a>
+
+                <!-- Catálogo de Productos Module -->
+                <a href="/catalogo-productos" class="bg-indigo-50 hover:bg-indigo-100 rounded-xl p-4 lg:p-6 border border-gray-200 cursor-pointer transition-all duration-200 hover:shadow-md">
+                    <div class="flex items-start space-x-3 lg:space-x-4">
+                        <div class="w-10 h-10 lg:w-12 lg:h-12 rounded-lg bg-white flex items-center justify-center text-indigo-600">
+                            <i class="ri-book-open-line text-lg lg:text-xl"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-semibold text-gray-900 mb-1 lg:mb-2 text-sm lg:text-base">Catálogo de productos</h4>
+                            <p class="text-xs lg:text-sm text-gray-600">Gestión del catálogo de productos</p>
+                        </div>
+                        <i class="ri-arrow-right-s-line text-gray-400 text-lg"></i>
+                    </div>
+                </a>
+
+                <!-- Línea y Familia del Producto Module -->
+                <a href="/linea-producto" class="bg-pink-50 hover:bg-pink-100 rounded-xl p-4 lg:p-6 border border-gray-200 cursor-pointer transition-all duration-200 hover:shadow-md">
+                    <div class="flex items-start space-x-3 lg:space-x-4">
+                        <div class="w-10 h-10 lg:w-12 lg:h-12 rounded-lg bg-white flex items-center justify-center text-pink-600">
+                            <i class="ri-node-tree text-lg lg:text-xl"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-semibold text-gray-900 mb-1 lg:mb-2 text-sm lg:text-base">Categorías</h4>
+                            <p class="text-xs lg:text-sm text-gray-600">Organización por líneas y familias</p>
+                        </div>
+                        <i class="ri-arrow-right-s-line text-gray-400 text-lg"></i>
+                    </div>
+                </a>
+
+                <!-- Reportes Module -->
+                <a href="/reportes" class="bg-teal-50 hover:bg-teal-100 rounded-xl p-4 lg:p-6 border border-gray-200 cursor-pointer transition-all duration-200 hover:shadow-md">
+                    <div class="flex items-start space-x-3 lg:space-x-4">
+                        <div class="w-10 h-10 lg:w-12 lg:h-12 rounded-lg bg-white flex items-center justify-center text-teal-600">
+                            <i class="ri-file-chart-line text-lg lg:text-xl"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-semibold text-gray-900 mb-1 lg:mb-2 text-sm lg:text-base">Reportes</h4>
+                            <p class="text-xs lg:text-sm text-gray-600">Informes y análisis del sistema</p>
+                        </div>
+                        <i class="ri-arrow-right-s-line text-gray-400 text-lg"></i>
+                    </div>
+                </a>
+
+                <!-- Configuración Module -->
+                <a href="/configuracion" class="bg-gray-50 hover:bg-gray-100 rounded-xl p-4 lg:p-6 border border-gray-200 cursor-pointer transition-all duration-200 hover:shadow-md">
+                    <div class="flex items-start space-x-3 lg:space-x-4">
+                        <div class="w-10 h-10 lg:w-12 lg:h-12 rounded-lg bg-white flex items-center justify-center text-gray-600">
+                            <i class="ri-settings-3-line text-lg lg:text-xl"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-semibold text-gray-900 mb-1 lg:mb-2 text-sm lg:text-base">Configuración</h4>
+                            <p class="text-xs lg:text-sm text-gray-600">Configuración del sistema</p>
+                        </div>
+                        <i class="ri-arrow-right-s-line text-gray-400 text-lg"></i>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>
