@@ -25,17 +25,20 @@ public class SimpleCorsFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
 
-        // 🔹 Origen del frontend (Railway) y local para pruebas
+        // 🔹 Origen permitido por defecto (frontend en Railway)
         String allowedOrigin = "https://jamp-production.up.railway.app";
 
+        // Si el Origin es uno de los que conocemos, lo devolvemos tal cual
         String origin = request.getHeader("Origin");
-        if (origin != null && (origin.equals("https://jamp-production.up.railway.app")
-                || origin.equals("http://localhost:5173"))) {
-            allowedOrigin = origin; // devolver exactamente el origen que llamó
+        if (origin != null && (
+                origin.equals("https://jamp-production.up.railway.app") ||
+                origin.equals("http://localhost:5173")
+        )) {
+            allowedOrigin = origin;
         }
 
         response.setHeader("Access-Control-Allow-Origin", allowedOrigin);
-        response.setHeader("Vary", "Origin"); // buena práctica
+        response.setHeader("Vary", "Origin");
         response.setHeader("Access-Control-Allow-Credentials", "true");
         response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
         response.setHeader("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization");
