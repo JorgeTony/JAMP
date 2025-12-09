@@ -3,7 +3,9 @@
  * Centraliza la lógica de headers y manejo de tokens
  */
 
-const API_BASE_URL = 'http://localhost:8080';
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL || 'http://localhost:8080';
+
 
 /**
  * Obtiene los headers con el token JWT del usuario autenticado
