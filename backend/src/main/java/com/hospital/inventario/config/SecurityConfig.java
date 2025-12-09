@@ -18,6 +18,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+// 👇 IMPORTS PARA CORS
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -48,25 +55,21 @@ public class SecurityConfig {
                                                    DaoAuthenticationProvider authenticationProvider) throws Exception {
 
         http
-            // ✅ Usa la config de CorsConfig
+            // 🔐 CORS AHORA USARÁ EL BEAN corsConfigurationSource() DE ABAJO
             .cors(Customizer.withDefaults())
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authz -> authz
 
-                // ✅ MUY IMPORTANTE: dejar pasar TODOS los OPTIONS (preflight CORS)
+                // ✅ Dejar pasar TODOS los OPTIONS (preflight CORS)
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-                // --- Rutas PÚBLICAS ---
+                // --- Rutas PÚBLICAS (ajusta según tu API) ---
                 .requestMatchers("/auth/**", "/login", "/error").permitAll()
                 .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
 
-                // ✅ Kardex / transacciones: libre mientras depuramos
+                // Ejemplo que tú ya tenías:
                 .requestMatchers("/transacciones/api/**").permitAll()
-
-                // --- Ejemplos de otras reglas ---
-                //.requestMatchers("/usuarios/**")
-                //    .hasAuthority("ROLE_ADMIN")
 
                 .requestMatchers("/configuracion/**")
                     .hasAnyAuthority("ROLE_ADMIN", "ROLE_SUPERVISOR")
@@ -83,5 +86,37 @@ public class SecurityConfig {
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
+    }
+
+    // 🔥 ESTE BEAN ES LA CLAVE PARA QUE CORS RESUELVA TU ERROR
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+
+        // Orígenes permitidos: producción + local
+        config.setAllowedOrigins(List.of(
+            "https://jamp-production.up.railway.app", // frontend en Railway
+            "http://localhost:5173"                   // Vite en local
+        ));
+
+        // Métodos permitidos
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+
+        // Headers permitidos
+        config.setAllowedHeaders(List.of(
+            "Authorization",
+            "Content-Type",
+            "X-Requested-With",
+            "Accept",
+            "Origin"
+        ));
+
+        // Si usas sesiones, JWT por header, etc.
+        config.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        // Aplica a TODAS las rutas
+        source.registerCorsConfiguration("/**", config);
+        return source;
     }
 }
