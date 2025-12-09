@@ -1,7 +1,6 @@
 package com.hospital.inventario.config;
 
 import java.io.IOException;
-
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
