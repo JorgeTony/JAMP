@@ -52,10 +52,14 @@ public class SecurityConfig {
                                                    DaoAuthenticationProvider authenticationProvider) throws Exception {
 
         http
+            // ✅ Usa la config CORS de CorsConfig
             .cors(Customizer.withDefaults())
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authz -> authz
+
+                // ✅ Dejar pasar TODOS los OPTIONS (preflight CORS)
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
                 // --- Rutas PÚBLICAS ---
                 .requestMatchers("/auth/**", "/login", "/error").permitAll()
@@ -65,8 +69,8 @@ public class SecurityConfig {
                 .requestMatchers("/transacciones/api/**").permitAll()
 
                 // --- Ejemplos de otras reglas (ajusta según tu proyecto) ---
-                //.requestMatchers("/usuarios/**")
-                  //  .hasAuthority("ROLE_ADMIN")
+                // .requestMatchers("/usuarios/**")
+                //     .hasAuthority("ROLE_ADMIN")
 
                 .requestMatchers("/configuracion/**")
                     .hasAnyAuthority("ROLE_ADMIN", "ROLE_SUPERVISOR")
