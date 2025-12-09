@@ -55,20 +55,20 @@ public class SecurityConfig {
                                                    DaoAuthenticationProvider authenticationProvider) throws Exception {
 
         http
-            // 🔐 CORS AHORA USARÁ EL BEAN corsConfigurationSource() DE ABAJO
+            // 🔥 Activar CORS usando la configuración de abajo
             .cors(Customizer.withDefaults())
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authz -> authz
 
-                // ✅ Dejar pasar TODOS los OPTIONS (preflight CORS)
+                // ✅ Dejar pasar TODOS los OPTIONS (preflight)
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-                // --- Rutas PÚBLICAS (ajusta según tu API) ---
+                // --- Rutas públicas ---
                 .requestMatchers("/auth/**", "/login", "/error").permitAll()
                 .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
 
-                // Ejemplo que tú ya tenías:
+                // Lo que ya tenías
                 .requestMatchers("/transacciones/api/**").permitAll()
 
                 .requestMatchers("/configuracion/**")
@@ -88,18 +88,18 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // 🔥 ESTE BEAN ES LA CLAVE PARA QUE CORS RESUELVA TU ERROR
+    // 👇 ESTA ES LA CONFIGURACIÓN CORS QUE DEBE USAR SPRING SECURITY
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
 
-        // Orígenes permitidos: producción + local
+        // Orígenes permitidos (PRODUCCIÓN + LOCAL)
         config.setAllowedOrigins(List.of(
             "https://jamp-production.up.railway.app", // frontend en Railway
             "http://localhost:5173"                   // Vite en local
         ));
 
-        // Métodos permitidos
+        // Métodos HTTP permitidos
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 
         // Headers permitidos
@@ -111,11 +111,11 @@ public class SecurityConfig {
             "Origin"
         ));
 
-        // Si usas sesiones, JWT por header, etc.
+        // Si usas JWT/cookies
         config.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        // Aplica a TODAS las rutas
+        // Aplicar a TODAS las rutas
         source.registerCorsConfiguration("/**", config);
         return source;
     }
