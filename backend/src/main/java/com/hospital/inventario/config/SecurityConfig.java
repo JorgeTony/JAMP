@@ -23,13 +23,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    // 🔹 Bean de PasswordEncoder
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // 🔹 Provider que usa UsuarioService + PasswordEncoder
     @Bean
     public DaoAuthenticationProvider authenticationProvider(UsuarioService usuarioService,
                                                             PasswordEncoder passwordEncoder) {
@@ -39,38 +37,36 @@ public class SecurityConfig {
         return authProvider;
     }
 
-    // 🔹 AuthenticationManager (lo usa tu controlador de login)
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
 
-    // 🔹 Configuración principal de seguridad
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http,
                                                    JwtAuthenticationFilter jwtAuthenticationFilter,
                                                    DaoAuthenticationProvider authenticationProvider) throws Exception {
 
         http
-            // ✅ Usa la config CORS de CorsConfig
+            // ✅ Usa la config de CorsConfig
             .cors(Customizer.withDefaults())
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authz -> authz
 
-                // ✅ Dejar pasar TODOS los OPTIONS (preflight CORS)
+                // ✅ MUY IMPORTANTE: dejar pasar TODOS los OPTIONS (preflight CORS)
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
                 // --- Rutas PÚBLICAS ---
                 .requestMatchers("/auth/**", "/login", "/error").permitAll()
                 .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
 
-                // ✅ Kardex / transacciones: totalmente libre mientras depuramos
+                // ✅ Kardex / transacciones: libre mientras depuramos
                 .requestMatchers("/transacciones/api/**").permitAll()
 
-                // --- Ejemplos de otras reglas (ajusta según tu proyecto) ---
-                // .requestMatchers("/usuarios/**")
-                //     .hasAuthority("ROLE_ADMIN")
+                // --- Ejemplos de otras reglas ---
+                //.requestMatchers("/usuarios/**")
+                //    .hasAuthority("ROLE_ADMIN")
 
                 .requestMatchers("/configuracion/**")
                     .hasAnyAuthority("ROLE_ADMIN", "ROLE_SUPERVISOR")
